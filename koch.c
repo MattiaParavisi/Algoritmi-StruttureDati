@@ -7,17 +7,17 @@ void koch(int lunghezza, int grado){
     return;
   }
   koch( lunghezza/3 , grado-1 );
-  turn(-45);
+  turn(-60);
   koch( lunghezza/3 , grado-1 );
-  turn(90);
+  turn(120);
   koch( lunghezza/3 , grado-1 );
-  turn(-45);
+  turn(-60);
   koch( lunghezza/3 , grado-1 );
 }
 
 void kochsnow(int lunghezza, int grado){
   koch(lunghezza, grado);
-  turn(120);
+  turn(-60);
   koch(lunghezza, grado);
   turn(120);
   koch(lunghezza, grado);
