@@ -19,6 +19,20 @@ void list_printInv( struct Nodo *l ){
   return;
 }
 
+void count( struct Nodo *l ){
+    int counter = 0;
+  if(l == NULL){
+      printf("0\n");
+    return;
+  }
+  while(l != NULL){
+    counter++;
+    l = l -> next;
+  }
+  printf("%d\n", counter);
+  return;
+}
+
 void list_printInvRec( struct Nodo *l){
   if( l == NULL){
     return;
@@ -54,6 +68,24 @@ struct Nodo *olist_search(int n,struct Nodo *l ){
     }
   }
   return l;
+}
+
+struct Nodo *delete(int n, struct Nodo *l){
+    struct Nodo *segugio=NULL, *start = l;
+    if(l==NULL){
+        return l;
+    }
+    if(l -> value == n){
+        segugio = l -> next;
+        return segugio;
+    }
+    while(l!=NULL && l->value!=n){
+        segugio = l;
+        l = l->next;
+    }
+    segugio -> next = l -> next;
+    free(l);
+    return start;
 }
 
 struct Nodo *olist_insert(int n, struct Nodo *l ){
@@ -97,9 +129,70 @@ void list_destroy(struct Nodo *l){
 
 
 int main(void){
-  struct Nodo *curr = NULL, *new = NULL, *start = NULL, *resins;
-  int scelta, keyvalue, *res, valins;
+  struct Nodo *curr = NULL, *new = NULL, *start = NULL, *resins, *ressearch;
+  int scelta, keyvalue, *res, valins, ins;
+  char sceltaoperazione;
   while(1){
+      printf("scegli l'operazione: ");
+      scanf(" %c", &sceltaoperazione);
+      switch(sceltaoperazione){
+          case '+':
+              printf("inserisci il numero da aggiungere all'insieme: ");
+              scanf("%d", &ins);
+              ressearch = olist_search(ins, start);
+              if(ressearch==NULL){
+                  start = olist_insert(ins, start);
+                  list_printInv(start);
+              }
+              break;
+          case '-':
+              printf("inserisci il numero da eliminare dall'insieme: ");
+              scanf("%d", &ins);
+              start = delete(ins, start);
+              list_printInv(start);
+              break;
+          case '?':
+              printf("inserisci il numero da cercare nell'insieme: ");
+              scanf("%d", &ins);
+              ressearch = olist_search(ins, start);
+              if(ressearch==NULL){
+                  printf("%d non appartiene all'insieme \n", ins);
+                  break;
+              }
+              printf("%d appartiene all'insieme \n", ins);
+              break;
+          case 'c':
+              count(start);
+              break;
+          case 'p':
+              list_printInv(start);
+              break;
+          case 'o':
+              list_printInvRec(start);
+              break;
+          case 'd':
+              list_destroy(start);
+              start = NULL;
+              break;
+          case 'f':
+              return 0;
+      }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*while(1){
     printf("inserisci un nuovo nodo?\n1)si \n2)no \n");
     scanf(" %d",&scelta);
     if(scelta == 0 && curr == NULL){
@@ -121,33 +214,5 @@ int main(void){
       curr = curr -> next;
       curr -> value = keyvalue;
     }
-  }
-  list_printInv(start);
-  /*printf("La ricorsiva: \n");
-  list_printInvRec(start);
-  printf("Trasformo in array: \n");
-  res = listToArray(start);
-  for(int i=0; i<4; i++){     //chiedere come determinare la grandezza di un array
-    if(*(res+i)==0){
-      break;
-    }
-    printf("%d \n", *(res+i));
-  }
-  printf("Libero tutto! \n");
-  list_destroy(start);              //chidere per le free nella destroy se poi start punta a roba a caso
-  printf("Stampo la lista! \n");
-  list_printInv(start);
-  printf("inserisco nela lista\n");
-  printf("inserisci il valore da inserire nella lista: \n");
-  scanf("%d", &valins);
-  resins = olist_insert(valins, start);
-  list_printInv(resins);*/
-  printf("inserisci il valore da cercare nella lista: \n");
-  scanf("%d", &valins);
-  resins = olist_search(valins, start);
-  if(resins!=NULL){
-    printf("valore trovato: %d\n", resins -> value);
-  }
-  return 0;
-
-}
+  }/*
+  
