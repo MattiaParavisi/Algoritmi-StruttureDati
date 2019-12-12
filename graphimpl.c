@@ -25,14 +25,36 @@ void graph_edgeinsert( Graph g,int v,int w ){
 }
 
 void graph_destroy( Graph g ){
+  for(int i = 0; i <  g -> nv; i++){
+    free( *(g -> A + i ));
+  }
   free(g);
+  return;
 }
 
 Graph graph_read(void){
-  Graph newgraph = malloc(sizeof(struct graph));
+  int numero1, numero2, vertici;
+  FILE *filereader;
+  printf("inserisci il numero di vertci del grafo che vuoi ottenere: \n");
+  scanf("%d", &vertici);
+  Graph newgraph = graph_new(vertici);
+  filereader = fopen( "VerticiGrafo", "r");
+  if(filereader == NULL){
+    printf("non posso aprire il file");
+    exit(0);
+  }
+  while(fscanf(filereader,"%d %d \n", &numero1, &numero2)!=EOF){
+    newgraph -> ne ++;
+    graph_edgeinsert(newgraph, numero1, numero2);
+  }
   return newgraph;
 }
 
 void graph_print( Graph g ){
-
+  for(int i = 0; i< g -> nv; i++){
+    for(int j = 0; j< g -> nv; j++ ){
+      printf("%d", *(*(g -> A + i) + j));
+    }
+    printf("\n");
+  }
 }
