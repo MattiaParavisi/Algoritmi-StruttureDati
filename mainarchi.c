@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "graph.h"
+#include "grapharchi.h"
 
 struct nodi{
   int v;
@@ -14,8 +14,15 @@ struct graph{
 };
 
 int main(void) {
-  Graph mygraph = malloc(sizeof(struct graph));
-  mygraph = graph_read();
-  printf("%p", *(*(mygraph -> A + 1)) );
-  return 0;
+  /*Graph mygraph = graph_new(5);
+  graph_edgeinsert(mygraph, 0, 1);
+  printf("%d \n", mygraph -> A[0] ->v);
+  printf("%d \n", mygraph -> A[1] ->v);
+  graph_edgeinsert(mygraph, 0, 2);
+  printf("%d \n", mygraph -> A[0] ->v);
+  printf("%d \n", mygraph -> A[2] ->v);*/
+  Graph mygraph = graph_read();
+  printf("%d \n", mygraph -> A[0] ->v);
+  printf("%d \n", mygraph -> A[2] ->v);
+  graph_destroy(mygraph);
 }
